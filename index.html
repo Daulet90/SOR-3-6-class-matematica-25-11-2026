@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="kk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<title>БЖБ №3 · 6Ә · Математика · Рационал сандарға амалдар қолдану</title>
+<style>
+  :root{
+    --ink:#1d2433; --muted:#5b6475; --line:#d9dde5; --bg:#f6f7f9; --paper:#ffffff;
+    --accent:#1f3a64; --accent-soft:#e8edf5; --ok:#2e6b3f; --warn:#8a5a00; --bad:#8b2c2c;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;padding:0}
+  body{background:var(--bg);color:var(--ink);font-family:"Times New Roman",Georgia,"PT Serif",serif;font-size:18px;line-height:1.5;-webkit-tap-highlight-color:transparent}
+  .wrap{max-width:760px;margin:0 auto;padding:20px 14px 40px}
+  .paper{background:var(--paper);border:1px solid var(--line);border-radius:6px;padding:28px 26px}
+  .sans{font-family:-apple-system,"Segoe UI",Roboto,Arial,sans-serif}
+  h1{font-size:24px;margin:0 0 4px;font-weight:700;text-align:center;letter-spacing:.2px}
+  h2{font-size:19px;margin:0 0 18px;font-weight:400;text-align:center;color:var(--muted)}
+  .meta{border-top:1px solid var(--line);border-bottom:1px solid var(--line);padding:12px 0;margin:18px 0;font-size:16px}
+  .meta div{display:flex;gap:8px;padding:2px 0}
+  .meta b{min-width:120px;font-weight:600}
+  label.lbl{display:block;font-size:15px;color:var(--muted);margin:14px 0 6px}
+  input[type=text],select{width:100%;padding:11px 12px;font-size:17px;border:1px solid #b9c0cc;border-radius:4px;background:#fff;color:var(--ink);font-family:inherit}
+  input[type=text]:focus,select:focus{outline:2px solid var(--accent-soft);border-color:var(--accent)}
+  .variants{display:flex;gap:10px}
+  .variants label{flex:1;border:1px solid #b9c0cc;border-radius:4px;padding:11px;text-align:center;cursor:pointer;user-select:none}
+  .variants input{display:none}
+  .variants label.on{border-color:var(--accent);background:var(--accent-soft);font-weight:700}
+  .rules{font-size:15px;color:var(--muted);margin-top:18px;padding:12px 14px;background:#fafbfc;border-left:3px solid var(--accent)}
+  .rules ul{margin:6px 0 0;padding-left:20px}
+  .btn{display:inline-block;border:1px solid var(--accent);background:var(--accent);color:#fff;font-size:17px;padding:12px 22px;border-radius:4px;cursor:pointer;font-family:inherit}
+  .btn:disabled{background:#c5cad3;border-color:#c5cad3;cursor:not-allowed}
+  .btn.ghost{background:#fff;color:var(--accent)}
+  .actions{display:flex;justify-content:flex-end;margin-top:22px}
+  .hidden{display:none!important}
+
+  .topbar{display:flex;justify-content:space-between;align-items:center;font-size:15px;color:var(--muted);margin-bottom:10px;gap:10px;flex-wrap:wrap}
+  .timer{font-variant-numeric:tabular-nums;font-weight:700;color:var(--accent);border:1px solid var(--line);padding:3px 10px;border-radius:4px;background:#fff}
+  .timer.low{color:var(--bad);border-color:var(--bad)}
+  .progress{height:4px;background:var(--line);border-radius:2px;overflow:hidden;margin-bottom:16px}
+  .progress i{display:block;height:100%;background:var(--accent);width:0}
+  .qnum{font-size:15px;color:var(--muted);margin-bottom:6px}
+  .qnum span{color:var(--accent);font-weight:700}
+  .qtext{font-size:20px;margin:6px 0 20px}
+  .expr{display:block;text-align:center;font-size:22px;margin:12px 0 4px;white-space:nowrap;overflow-x:auto}
+  .fr{display:inline-flex;flex-direction:column;align-items:center;vertical-align:middle;margin:0 2px;font-size:.92em;line-height:1.1}
+  .fr>span:first-child{border-bottom:1.5px solid currentColor;padding:0 3px}
+  .fr>span:last-child{padding:0 3px}
+  .opts{display:grid;gap:10px}
+  .opt{display:flex;align-items:center;gap:12px;border:1px solid #c3c9d4;border-radius:4px;padding:12px 14px;cursor:pointer;background:#fff;font-size:19px;user-select:none}
+  .opt .let{width:28px;height:28px;border:1px solid #9aa3b2;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:15px;flex:0 0 auto;font-family:-apple-system,"Segoe UI",Roboto,Arial,sans-serif}
+  .opt.sel{border-color:var(--accent);background:var(--accent-soft)}
+  .opt.sel .let{background:var(--accent);color:#fff;border-color:var(--accent)}
+  .ansbox{margin-top:6px}
+  .ansbox input{font-size:24px;text-align:center;font-family:-apple-system,"Segoe UI",Roboto,Arial,sans-serif;letter-spacing:.5px}
+  .hint{font-size:14px;color:var(--muted);margin:8px 0 10px;text-align:center}
+  .pad{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:6px}
+  .pad button{font-size:22px;padding:12px 0;border:1px solid #c3c9d4;background:#fff;border-radius:4px;cursor:pointer;color:var(--ink);font-family:-apple-system,"Segoe UI",Roboto,Arial,sans-serif;touch-action:manipulation}
+  .pad button:active{background:var(--accent-soft)}
+  .pad button.fn{background:#f1f3f6}
+  .pad button.sign{color:var(--accent);font-weight:700}
+  .pad button.clr{color:var(--bad);font-weight:700}
+  .goal{font-size:13px;color:#8a93a3;margin-top:22px;border-top:1px dashed var(--line);padding-top:8px}
+
+  .result{text-align:center}
+  .score{font-size:54px;font-weight:700;color:var(--accent);margin:10px 0 0}
+  .score small{font-size:24px;color:var(--muted);font-weight:400}
+  table.res{width:100%;border-collapse:collapse;margin-top:18px;font-size:16px;text-align:left}
+  table.res td{border-bottom:1px solid var(--line);padding:7px 4px}
+  table.res td:last-child{text-align:right;font-weight:600}
+  .status{font-size:15px;margin-top:16px;color:var(--muted)}
+  .status.ok{color:var(--ok)} .status.bad{color:var(--bad)}
+
+  .modal{position:fixed;inset:0;background:rgba(20,26,38,.55);display:flex;align-items:center;justify-content:center;padding:16px;z-index:50}
+  .modal .box{background:#fff;max-width:440px;width:100%;border-radius:6px;padding:22px;border-top:4px solid var(--warn)}
+  .modal h3{margin:0 0 10px;font-size:20px;color:var(--warn)}
+  .modal p{margin:0 0 12px;font-size:17px}
+  footer{text-align:center;font-size:13px;color:#8a93a3;margin-top:16px}
+  @media (max-width:520px){
+    body{font-size:17px}.paper{padding:20px 16px}.qtext{font-size:18px}.opt{font-size:18px}.expr{font-size:20px}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <!-- ===== Бастапқы бет ===== -->
+  <section id="start" class="paper">
+    <h1>Бөлім бойынша жиынтық бағалау (БЖБ №3)</h1>
+    <h2>«Рационал сандарға амалдар қолдану»</h2>
+    <div class="meta">
+      <div><b>Пән:</b><span>Математика</span></div>
+      <div><b>Сынып:</b><span>6</span></div>
+      <div><b>Мұғалім:</b><span>учитель математики – Кунгозин Даулет Багдашұлы</span></div>
+      <div><b>Балл:</b><span>16</span></div>
+    </div>
+
+    <label class="lbl" for="fio">Оқушының тегі мен аты (ФИ)</label>
+    <input type="text" id="fio" autocomplete="off" placeholder="Введите ФИ">
+
+    <label class="lbl" for="cls">Сынып</label>
+    <select id="cls">
+      <option value="">— сыныпты таңдаңыз —</option>
+      <option value="6Ә">6Ә</option>
+    </select>
+
+    <label class="lbl">Нұсқа</label>
+    <div class="variants" id="variants">
+      <label><input type="radio" name="var" value="1">1-нұсқа</label>
+      <label><input type="radio" name="var" value="2">2-нұсқа</label>
+    </div>
+
+    <div class="rules">
+      <b>Нұсқаулық</b>
+      <ul>
+        <li>Барлығы 16 тапсырма: 12 тест тапсырмасы (4 жауаптың біреуі дұрыс) және 4 тапсырма — жауабы сан түрінде.</li>
+        <li>Әр тапсырма — 1 балл. Әр тапсырмаға 3 минут беріледі; уақыт біткенде келесі тапсырмаға автоматты түрде өтеді.</li>
+        <li>Алдыңғы тапсырмаға қайту мүмкін емес.</li>
+        <li>Тест кезінде қойындыны жасыруға (басқа бетке өтуге) болмайды. Қойындыны жасырған жағдайда баға 1 балға төмендетіледі.</li>
+      </ul>
+    </div>
+    <div class="actions"><button class="btn" id="btnStart" disabled>Келесі →</button></div>
+  </section>
+
+  <!-- ===== Тест ===== -->
+  <section id="quiz" class="paper hidden">
+    <div class="topbar sans">
+      <div id="who"></div>
+      <div class="timer" id="timer">03:00</div>
+    </div>
+    <div class="progress"><i id="bar"></i></div>
+    <div class="qnum sans" id="qnum"></div>
+    <div class="qtext" id="qtext"></div>
+    <div id="qbody"></div>
+    <div class="actions"><button class="btn" id="btnNext" disabled>Келесі →</button></div>
+    <div class="goal sans" id="qgoal"></div>
+  </section>
+
+  <!-- ===== Нәтиже ===== -->
+  <section id="result" class="paper result hidden">
+    <h1>Тест аяқталды</h1>
+    <h2 id="resWho"></h2>
+    <div class="score" id="resScore"></div>
+    <table class="res sans" id="resTable"></table>
+    <div class="status sans" id="sendStatus">Нәтиже жіберілуде…</div>
+    <div class="actions" style="justify-content:center"><button class="btn ghost hidden" id="btnResend">Қайта жіберу</button></div>
+  </section>
+
+  <footer class="sans">Шапық Шөкин атындағы жалпы орта білім беру гимназия-мектебі · Математика · 6Ә</footer>
+</div>
+
+<!-- Ескерту терезесі -->
+<div class="modal hidden" id="modal">
+  <div class="box">
+    <h3>Назар аударыңыз!</h3>
+    <p id="modalText"></p>
+    <p style="font-size:15px;color:#5b6475">Тест жалғасады. Қойындыны жасырған жағдайда баға 1 балға төмендетіледі.</p>
+    <div class="actions" style="margin-top:6px"><button class="btn" id="modalOk">Түсіндім, жалғастыру</button></div>
+  </div>
+</div>
+
+<script>
+/* =====================================================================
+   1) Apps Script веб-қолданбасының URL мекенжайын осы жерге қойыңыз
+   ===================================================================== */
+const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzYMuDkXcQFxRu-eH-iXOUU2gS-ovdFATz9bxtyPH2rqYehoy8lR_sqbxhU-Krfbdy2/exec";
+
+const TEST_ID   = "BZhB3_6A_Rational";
+const SEC_PER_Q = 180;     // 3 минут
+const PENALTY   = 1;       // қойындыны жасырғаны үшін айыппұл (балл)
+
+/* Бөлшекті жазу: {a/b} → тік бөлшек */
+function fmt(s){ return s.replace(/\{(\d+)\/(\d+)\}/g,'<span class="fr"><span>$1</span><span>$2</span></span>'); }
+
+/* type: "mc" — тест (ans — дұрыс жауап, бірінші болып жазылған),  "num" — сан енгізу */
+const G = {
+  a:"6.1.2.17 — рационал сандарды қосу және көбейтудің қасиеттерін қолдану",
+  b:"6.1.2.19 — рационал санды шексіз периодты ондық бөлшек түрінде жазу",
+  c:"6.1.2.20 — шексіз периодты ондық бөлшектің периодын табу",
+  d:"6.1.2.22 — рационал сандарды қамтитын санды өрнектердің мәндерін табу",
+  e:"6.5.1.4 — рационал сандарға қатысты мәтінді есептерді шығару"
+};
+
+const VARIANTS = {
+ 1: [
+  {t:"mc",g:"a",q:"Қосудың қасиеттерін қолданып, өрнектің мәнін табыңыз:",x:"−3,7 + 5,2 + 3,7",o:["5,2","12,6","−5,2","1,5"]},
+  {t:"mc",g:"a",q:"Көбейтудің қасиеттерін қолданып, өрнектің мәнін табыңыз:",x:"−0,25 · 17 · (−4)",o:["17","−17","1,7","−68"]},
+  {t:"mc",g:"a",q:"Көбейтудің қосуға қатысты үлестірімділік қасиетін қолданып, есептеңіз:",x:"7,3 · (−2,5) + 2,7 · (−2,5)",o:["−25","25","−2,5","−10"]},
+  {t:"mc",g:"b",q:"Бөлшекті шексіз периодты ондық бөлшек түрінде жазыңыз:",x:"{2/3}",o:["0,(6)","0,(3)","0,6","0,0(6)"]},
+  {t:"mc",g:"b",q:"Бөлшекті шексіз периодты ондық бөлшек түрінде жазыңыз:",x:"{5/11}",o:["0,(45)","0,(54)","0,4(5)","0,(5)"]},
+  {t:"mc",g:"b",q:"Бөлшекті шексіз периодты ондық бөлшек түрінде жазыңыз:",x:"{1/6}",o:["0,1(6)","0,(16)","0,(6)","0,16"]},
+  {t:"mc",g:"c",q:"Шексіз периодты ондық бөлшектің периодын табыңыз:",x:"3,2(17)",o:["17","2","217","3"]},
+  {t:"mc",g:"c",q:"Бөлшекті ондық бөлшекке айналдырғанда шығатын шексіз периодты ондық бөлшектің периодын табыңыз:",x:"{4/7}",o:["571428","571","57","1428"]},
+  {t:"mc",g:"d",q:"Өрнектің мәнін табыңыз:",x:"(−1,2 + 3,6) : (−0,8)",o:["−3","3","−0,3","−6"]},
+  {t:"mc",g:"d",q:"Өрнектің мәнін табыңыз:",x:"−{2/3} · {9/4} + {1/2}",o:["−1","1","−2","0"]},
+  {t:"mc",g:"e",q:"Таңертең ауа температурасы −4,5 °C болды. Түске қарай температура 7,3 °C-қа көтерілді, ал кешке 3,8 °C-қа төмендеді. Кешкі ауа температурасы қандай?",o:["−1 °C","1 °C","−15,6 °C","6,6 °C"]},
+  {t:"mc",g:"e",q:"Сүңгуір теңіз деңгейінен −12,5 м тереңдікте болды. Ол алдымен 4,8 м жоғары көтерілді, содан кейін 2,3 м төмен түсті. Сүңгуір қай белгіде тұр?",o:["−10 м","−5,4 м","−19,6 м","−14,8 м"]},
+  {t:"num",g:"a",q:"Көбейтудің қасиеттерін қолданып, өрнектің мәнін табыңыз:",x:"(−0,5) · (−3,7) · (−20)",ans:-37},
+  {t:"num",g:"c",q:"Бөлшекті шексіз периодты ондық бөлшек түрінде жазып, оның периодын жауап ретінде енгізіңіз:",x:"{7/12}",ans:3},
+  {t:"num",g:"d",q:"Өрнектің мәнін табыңыз:",x:"(−{3/4} + {1/2}) · (−8) − 5",ans:-3},
+  {t:"num",g:"e",q:"Оқушының телефон балансында −2,4 мың теңге (қарыз) болды. Ол балансты 5,1 мың теңгеге толтырды, содан кейін 1,5 мың теңгені қоңырауларға жұмсады. Балансында неше мың теңге қалды?",ans:1.2}
+ ],
+ 2: [
+  {t:"mc",g:"a",q:"Қосудың қасиеттерін қолданып, өрнектің мәнін табыңыз:",x:"−4,8 + 6,3 + 4,8",o:["6,3","15,9","−6,3","1,5"]},
+  {t:"mc",g:"a",q:"Көбейтудің қасиеттерін қолданып, өрнектің мәнін табыңыз:",x:"−0,5 · 23 · (−2)",o:["23","−23","2,3","−46"]},
+  {t:"mc",g:"a",q:"Көбейтудің қосуға қатысты үлестірімділік қасиетін қолданып, есептеңіз:",x:"6,4 · (−1,5) + 3,6 · (−1,5)",o:["−15","15","−1,5","−10"]},
+  {t:"mc",g:"b",q:"Бөлшекті шексіз периодты ондық бөлшек түрінде жазыңыз:",x:"{1/3}",o:["0,(3)","0,(6)","0,3","0,0(3)"]},
+  {t:"mc",g:"b",q:"Бөлшекті шексіз периодты ондық бөлшек түрінде жазыңыз:",x:"{7/11}",o:["0,(63)","0,(36)","0,6(3)","0,(3)"]},
+  {t:"mc",g:"b",q:"Бөлшекті шексіз периодты ондық бөлшек түрінде жазыңыз:",x:"{5/6}",o:["0,8(3)","0,(83)","0,(3)","0,83"]},
+  {t:"mc",g:"c",q:"Шексіз периодты ондық бөлшектің периодын табыңыз:",x:"5,4(26)",o:["26","4","426","5"]},
+  {t:"mc",g:"c",q:"Бөлшекті ондық бөлшекке айналдырғанда шығатын шексіз периодты ондық бөлшектің периодын табыңыз:",x:"{2/7}",o:["285714","285","28","5714"]},
+  {t:"mc",g:"d",q:"Өрнектің мәнін табыңыз:",x:"(−2,1 + 4,5) : (−0,6)",o:["−4","4","−0,4","−8"]},
+  {t:"mc",g:"d",q:"Өрнектің мәнін табыңыз:",x:"−{3/5} · {10/9} + {1/3}",o:["−{1/3}","{1/3}","−1","0"]},
+  {t:"mc",g:"e",q:"Таңертең ауа температурасы −6,2 °C болды. Түске қарай температура 9,5 °C-қа көтерілді, ал кешке 5,3 °C-қа төмендеді. Кешкі ауа температурасы қандай?",o:["−2 °C","2 °C","−21 °C","8,6 °C"]},
+  {t:"mc",g:"e",q:"Сүңгуір теңіз деңгейінен −14,6 м тереңдікте болды. Ол алдымен 5,9 м жоғары көтерілді, содан кейін 3,3 м төмен түсті. Сүңгуір қай белгіде тұр?",o:["−12 м","−5,4 м","−23,8 м","−17,9 м"]},
+  {t:"num",g:"a",q:"Көбейтудің қасиеттерін қолданып, өрнектің мәнін табыңыз:",x:"(−0,25) · (−4,9) · (−40)",ans:-49},
+  {t:"num",g:"c",q:"Бөлшекті шексіз периодты ондық бөлшек түрінде жазып, оның периодын жауап ретінде енгізіңіз:",x:"{11/12}",ans:6},
+  {t:"num",g:"d",q:"Өрнектің мәнін табыңыз:",x:"(−{5/6} + {1/3}) · (−6) − 7",ans:-4},
+  {t:"num",g:"e",q:"Оқушының телефон балансында −3,6 мың теңге (қарыз) болды. Ол балансты 6,8 мың теңгеге толтырды, содан кейін 2,1 мың теңгені қоңырауларға жұмсады. Балансында неше мың теңге қалды?",ans:1.1}
+ ]
+};
+
+/* ---------- күй ---------- */
+const S = { fio:"", cls:"", variant:0, idx:0, answers:[], blurCount:0, started:0, active:false, timeLeft:SEC_PER_Q, tick:null, order:[] , sel:null };
+const $ = id => document.getElementById(id);
+
+/* ---------- бастапқы бет ---------- */
+function checkStart(){ $("btnStart").disabled = !($("fio").value.trim().length>=3 && $("cls").value && S.variant); }
+$("fio").addEventListener("input", checkStart);
+$("cls").addEventListener("change", checkStart);
+document.querySelectorAll("#variants input").forEach(r=>{
+  r.addEventListener("change", ()=>{
+    S.variant = +r.value;
+    document.querySelectorAll("#variants label").forEach(l=>l.classList.toggle("on", l.contains(r)));
+    checkStart();
+  });
+});
+
+$("btnStart").addEventListener("click", ()=>{
+  S.fio = $("fio").value.trim().replace(/\s+/g," ");
+  S.cls = $("cls").value;
+  S.idx = 0; S.answers = []; S.blurCount = 0; S.started = Date.now(); S.active = true;
+  // жергілікті әрекет санауышы
+  const key = TEST_ID+"|"+S.fio.toLowerCase()+"|"+S.cls;
+  let n = 0; try{ n = +(localStorage.getItem(key)||0); localStorage.setItem(key, n+1); }catch(e){}
+  S.localAttempt = n+1;
+  $("start").classList.add("hidden"); $("quiz").classList.remove("hidden");
+  $("who").textContent = S.fio+" · "+S.cls+" · "+S.variant+"-нұсқа";
+  render();
+});
+
+/* ---------- сұрақты көрсету ---------- */
+function shuffle(a){ a=a.slice(); for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];} return a; }
+
+function render(){
+  const list = VARIANTS[S.variant], q = list[S.idx], total = list.length;
+  S.sel = null;
+  $("qnum").innerHTML = "Тапсырма <span>"+(S.idx+1)+"</span> / "+total+" · 1 балл";
+  $("bar").style.width = (S.idx/total*100)+"%";
+  $("qtext").innerHTML = fmt(q.q) + (q.x ? '<span class="expr">'+fmt(q.x)+'</span>' : "");
+  $("qgoal").textContent = "Оқу мақсаты: "+G[q.g];
+  $("btnNext").textContent = S.idx===total-1 ? "Аяқтау ✓" : "Келесі →";
+  $("btnNext").disabled = true;
+  const body = $("qbody"); body.innerHTML = "";
+
+  if(q.t==="mc"){
+    const opts = shuffle(q.o.map((v,i)=>({v,ok:i===0})));
+    const box = document.createElement("div"); box.className="opts";
+    opts.forEach((o,i)=>{
+      const d = document.createElement("div"); d.className="opt";
+      d.innerHTML = '<span class="let">'+"ABCD"[i]+'</span><span>'+fmt(o.v)+'</span>';
+      d.onclick = ()=>{ box.querySelectorAll(".opt").forEach(x=>x.classList.remove("sel")); d.classList.add("sel"); S.sel={text:o.v.replace(/\{(\d+)\/(\d+)\}/g,"$1/$2"),ok:o.ok}; $("btnNext").disabled=false; };
+      box.appendChild(d);
+    });
+    body.appendChild(box);
+  } else {
+    body.innerHTML =
+      '<div class="ansbox"><input type="text" id="numIn" inputmode="decimal" autocomplete="off" placeholder="Жауапты енгізіңіз"></div>'+
+      '<div class="hint sans">Теріс сан үшін «−» батырмасын басыңыз (санның таңбасын ауыстырады). Ондық бөлшек: «,» · жай бөлшек: «/»</div>'+
+      '<div class="pad">'+
+        ['7','8','9','⌫','4','5','6','−','1','2','3','/','0',',','C'].map(k=>{
+          let cls = k==='⌫'?'fn':k==='−'?'fn sign':k==='/'?'fn':k==='C'?'fn clr':'';
+          let span = k==='C' ? ' style="grid-column:span 2"' : '';
+          return '<button type="button" class="'+cls+'" data-k="'+k+'"'+span+'>'+k+'</button>';
+        }).join('')+
+      '</div>';
+    const inp = $("numIn");
+    const upd = ()=>{ $("btnNext").disabled = parseNum(inp.value)===null; };
+    inp.addEventListener("input", ()=>{
+      // тек рұқсат етілген таңбалар
+      let v = inp.value.replace(/-/g,"−").replace(/\./g,",").replace(/[^0-9,\/−]/g,"");
+      const neg = v.includes("−"); v = v.replace(/−/g,"");
+      inp.value = (neg?"−":"")+v; upd();
+    });
+    body.querySelectorAll(".pad button").forEach(b=>{
+      b.addEventListener("mousedown", e=>e.preventDefault());   // фокус өрісте қалады
+      b.addEventListener("click", ()=>{
+        const k = b.dataset.k; let v = inp.value;
+        if(k==="C") v="";
+        else if(k==="⌫") v=v.slice(0,-1);
+        else if(k==="−") v = v.startsWith("−") ? v.slice(1) : "−"+v;
+        else if(k===","){ const part=v.split("/").pop(); if(!part.includes(",")) v += (part.replace("−","")===""?"0,":","); }
+        else if(k==="/"){ if(!v.includes("/") && /\d$/.test(v)) v+="/"; }
+        else v+=k;
+        inp.value = v; upd();
+      });
+    });
+    setTimeout(()=>{ try{inp.focus();}catch(e){} }, 150);
+  }
+  startTimer();
+}
+
+/* ---------- санды тексеру ---------- */
+function parseNum(s){
+  if(!s) return null;
+  s = s.replace(/−/g,"-").replace(/,/g,".").trim();
+  if(/^-?\d+(\.\d+)?$/.test(s)) return parseFloat(s);
+  const m = s.match(/^(-?)(\d+(?:\.\d+)?)\/(\d+(?:\.\d+)?)$/);
+  if(m){ const d=parseFloat(m[3]); if(d===0) return null; return (m[1]?-1:1)*parseFloat(m[2])/d; }
+  return null;
+}
+
+/* ---------- таймер ---------- */
+function startTimer(){
+  clearInterval(S.tick); S.timeLeft = SEC_PER_Q; drawTimer();
+  S.tick = setInterval(()=>{ S.timeLeft--; drawTimer(); if(S.timeLeft<=0){ clearInterval(S.tick); nextQ(true); } },1000);
+}
+function drawTimer(){
+  const t=Math.max(0,S.timeLeft), m=String(Math.floor(t/60)).padStart(2,"0"), s=String(t%60).padStart(2,"0");
+  $("timer").textContent = m+":"+s; $("timer").classList.toggle("low", t<=30);
+}
+
+/* ---------- келесі ---------- */
+function nextQ(timeout){
+  clearInterval(S.tick);
+  const q = VARIANTS[S.variant][S.idx];
+  let given="", ok=false;
+  if(q.t==="mc"){ if(S.sel){ given=S.sel.text; ok=S.sel.ok; } }
+  else { const inp=$("numIn"); given = inp? inp.value : ""; const v=parseNum(given); ok = v!==null && Math.abs(v-q.ans)<1e-9; }
+  S.answers.push({given: given || (timeout?"(уақыт бітті)":"—"), ok});
+  S.idx++;
+  if(S.idx < VARIANTS[S.variant].length) render(); else finish();
+}
+$("btnNext").addEventListener("click", ()=>nextQ(false));
+
+/* ---------- қойындыны жасыру ---------- */
+document.addEventListener("visibilitychange", ()=>{
+  if(!S.active) return;
+  if(document.hidden){ S.blurCount++; }
+  else {
+    $("modalText").textContent = "Сіз тест қойындысын жасырдыңыз (басқа бетке өттіңіз). Жасыру саны: "+S.blurCount+".";
+    $("modal").classList.remove("hidden");
+  }
+});
+$("modalOk").addEventListener("click", ()=>$("modal").classList.add("hidden"));
+window.addEventListener("beforeunload", e=>{ if(S.active){ e.preventDefault(); e.returnValue=""; } });
+
+/* ---------- аяқтау ---------- */
+let PAYLOAD = null;
+function finish(){
+  S.active = false; clearInterval(S.tick);
+  $("modal").classList.add("hidden");
+  const raw = S.answers.filter(a=>a.ok).length;
+  const max = VARIANTS[S.variant].length;
+  const pen = S.blurCount>0 ? PENALTY : 0;
+  const final = Math.max(0, raw - pen);
+  const sec = Math.round((Date.now()-S.started)/1000);
+  const dur = Math.floor(sec/60)+" мин "+(sec%60)+" с";
+
+  $("quiz").classList.add("hidden"); $("result").classList.remove("hidden");
+  $("resWho").textContent = S.fio+" · "+S.cls+" · "+S.variant+"-нұсқа";
+  $("resScore").innerHTML = final+" <small>/ "+max+"</small>";
+  $("resTable").innerHTML =
+    "<tr><td>Дұрыс жауаптар</td><td>"+raw+" / "+max+"</td></tr>"+
+    "<tr><td>Қойындыны жасыру саны</td><td>"+S.blurCount+"</td></tr>"+
+    "<tr><td>Айыппұл</td><td>"+(pen?"−"+pen+" балл":"жоқ")+"</td></tr>"+
+    "<tr><td>Қорытынды балл</td><td>"+final+"</td></tr>"+
+    "<tr><td>Пайыз</td><td>"+Math.round(final/max*100)+"%</td></tr>"+
+    "<tr><td>Жұмсалған уақыт</td><td>"+dur+"</td></tr>";
+
+  PAYLOAD = {
+    testId:TEST_ID, fio:S.fio, cls:S.cls, variant:S.variant,
+    score:final, raw:raw, penalty:pen, max:max, percent:Math.round(final/max*100),
+    blurred: S.blurCount>0 ? "Иә" : "Жоқ", blurCount:S.blurCount,
+    duration:dur, localAttempt:S.localAttempt,
+    details: S.answers.map((a,i)=>(i+1)+":"+(a.ok?"+":"−")).join(" "),
+    answers: S.answers.map((a,i)=>(i+1)+") "+a.given).join("; "),
+    device: navigator.userAgent.slice(0,150)
+  };
+  send();
+}
+
+function send(){
+  const st=$("sendStatus"); st.className="status sans"; st.textContent="Нәтиже жіберілуде…";
+  $("btnResend").classList.add("hidden");
+  if(!SCRIPT_URL || SCRIPT_URL.indexOf("http")!==0){ st.className="status sans bad"; st.textContent="Apps Script URL мекенжайы көрсетілмеген — нәтиже жіберілмеді."; return; }
+  fetch(SCRIPT_URL,{method:"POST",mode:"no-cors",headers:{"Content-Type":"text/plain;charset=utf-8"},body:JSON.stringify(PAYLOAD)})
+    .then(()=>{ st.className="status sans ok"; st.textContent="✓ Нәтиже мұғалімге жіберілді."; })
+    .catch(()=>{ st.className="status sans bad"; st.textContent="Жіберу мүмкін болмады. Интернетті тексеріп, «Қайта жіберу» батырмасын басыңыз."; $("btnResend").classList.remove("hidden"); });
+}
+$("btnResend").addEventListener("click", send);
+</script>
+</body>
+</html>
